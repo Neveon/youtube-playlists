@@ -1,0 +1,15 @@
+{
+  "playlists": [
+    {
+      "John": {
+        "list": ["sHhhTtqWcOM", "20Ov0cDPZy8"]
+      }
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "username": "John"
+    }
+  ]
+}
