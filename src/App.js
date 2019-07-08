@@ -21,7 +21,7 @@ import Signup from './pages/Signup';
 
 // Checking for token in localStorage
 let authenticated;
-const token = localStorage.FBIdtoken;
+const token = localStorage.getItem('FBIdtoken');
 
 if (token) {
   const decodedToken = jwtDecode(token);
