@@ -1,6 +1,0 @@
-export const GET_PLAYLIST = 'GET_PLAYLIST';
-export const ADD_VIDEO = 'ADD_VIDEO';
-export const DELETE_VIDEO = 'DELETE_VIDEO';
-export const UPDATE_PLAYLIST = 'UPDATE_PLAYLIST';
-export const CLEAR_PLAYLIST = 'GET_PLAYLIST';
-export const PLAYLIST_ERROR = 'GET_PLAYLIST';

@@ -1,7 +1,22 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import YouTube from 'react-youtube';
 
 const ReactYouTubeExample = props => {
+  const playlist = [];
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch('/playlists/John');
+      const data = await res.json();
+      for (let v in data.list) {
+        playlist.push(data.list[v]);
+      }
+    };
+    fetchData();
+    // const data = await res.json();
+    // playlist.push(data);
+    //eslint-disable-next-line
+  }, []);
   // videoOnReady(event) {
   //   // access to player in all event handlers via event.target
   //   // event.target.playVideoAt(50) // 50 seconds
@@ -32,7 +47,7 @@ const ReactYouTubeExample = props => {
 
   const onPlayerReady = event => {
     const player = event.target;
-    player.loadPlaylist(['20Ov0cDPZy8', 'dBFW8OvciIU']);
+    player.loadPlaylist(playlist);
   };
 
   const opts = {
@@ -45,7 +60,7 @@ const ReactYouTubeExample = props => {
     },
     loadPlaylist: {
       listType: 'playlist',
-      list: ['20Ov0cDPZy8', 'dBFW8OvciIU'],
+      list: playlist,
       index: parseInt(0),
       suggestedQuality: 'default'
     }
