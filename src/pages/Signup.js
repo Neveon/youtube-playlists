@@ -1,21 +1,19 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { signupUser } from '../redux/actions/userActions';
+import PropTypes from 'prop-types';
 
-import M from 'materialize-css/dist/js/materialize.min.js';
-
-const Signup = props => {
+const Signup = ({ user: { loading }, signupUser, history }) => {
   const [form, setForm] = useState({
     email: '',
     password: '',
     confirmPassword: '',
-    username: '',
-    loading: false
+    username: ''
   });
 
   const onSubmit = e => {
     e.preventDefault();
-    setForm({ ...form, loading: true });
 
     const userData = {
       email: form.email,
@@ -23,33 +21,7 @@ const Signup = props => {
       confirmPassword: form.confirmPassword,
       username: form.username
     };
-    axios
-      .post('/signup', userData)
-      .then(res => {
-        const FBIdToken = `Bearer ${res.data.token}`; // FBAuth response
-        localStorage.setItem('FBIdtoken', FBIdToken);
-        axios.defaults.headers.common['Authorization'] = FBIdToken;
-        M.toast({ html: 'Sign up Successful' });
-        props.history.push('/');
-        setForm({ ...form, loading: false });
-      })
-      .catch(err => {
-        if (err.response.data.email) {
-          M.toast({ html: `Email: ${err.response.data.email}` });
-        }
-        if (err.response.data.password) {
-          M.toast({ html: `Password: ${err.response.data.password}` });
-        }
-        if (err.response.data.confirmPassword) {
-          M.toast({
-            html: `Confirm Password: ${err.response.data.confirmPassword}`
-          });
-        }
-        if (err.response.data.username) {
-          M.toast({ html: `Username: ${err.response.data.username}` });
-        }
-        setForm({ ...form, loading: false });
-      });
+    signupUser(userData, history);
   };
 
   const onChange = e => {
@@ -117,11 +89,28 @@ const Signup = props => {
           <button
             className='btn waves-effect waves-light'
             type='submit'
-            disabled={form.loading}
+            disabled={loading}
           >
             Signup
             <i className='material-icons right'>send</i>
           </button>
+          <br />
+          <br />
+          {loading ? (
+            <div className='preloader-wrapper small active'>
+              <div className='spinner-layer spinner-green-only'>
+                <div className='circle-clipper left'>
+                  <div className='circle' />
+                </div>
+                <div className='gap-patch'>
+                  <div className='circle' />
+                </div>
+                <div className='circle-clipper right'>
+                  <div className='circle' />
+                </div>
+              </div>
+            </div>
+          ) : null}
           <br />
           <br />
           <small>
@@ -133,4 +122,16 @@ const Signup = props => {
   );
 };
 
-export default Signup;
+Signup.propTypes = {
+  user: PropTypes.object.isRequired,
+  signupUser: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+export default connect(
+  mapStateToProps,
+  { signupUser }
+)(Signup);

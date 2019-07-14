@@ -1,55 +1,65 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import Preloader from '../components/layout/Preloader';
 import PlaylistItem from '../components/layout/PlaylistItem';
-import axios from 'axios';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { getPlaylists } from '../redux/actions/playlistActions';
+
+// Layout
+import AddPlaylistBtn from '../components/layout/AddPlaylistBtn';
 
 import M from 'materialize-css/dist/js/materialize.min.js';
 
-class Home extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      playlists: null
-    };
-  }
-
-  componentDidMount() {
-    // If token exists then get token, otherwise route user to login
+const Home = ({ playlist: { allPlaylists }, getPlaylists, history }) => {
+  useEffect(() => {
+    // If token exists then get playlists, otherwise route user to login
     if (localStorage.getItem('FBIdtoken')) {
-      const FBIdToken = localStorage.getItem('FBIdtoken');
-      axios.defaults.headers.common['Authorization'] = FBIdToken;
-      axios
-        .get('/playlists')
-        .then(res => {
-          this.setState({
-            playlists: res.data
-          });
-        })
-        .catch(err => {
-          console.error(err.response.data);
-        });
+      getPlaylists();
     } else {
       M.toast({ html: 'Please login' });
-      this.props.history.push('/login');
+      localStorage.clear();
+      history.push('/login');
     }
+    // eslint-disable-next-line
+  }, []);
+
+  if (allPlaylists === null) {
+    // init null
+    return <Preloader />;
   }
 
-  render() {
-    let recentPlaylists = this.state.playlists ? (
+  return (
+    <div>
       <ul className='collection with-header'>
         <li className='collection-header'>
-          <h4 className='center'>Your Playlists</h4>
+          <h4 className='center'>&#9835; Your Playlists &#9835;</h4>
         </li>
-        {this.state.playlists.map(playlist => (
-          <PlaylistItem playlist={playlist} key={playlist.name} />
+        {allPlaylists.map(playlist => (
+          <PlaylistItem playlistPassed={playlist} key={playlist.name} />
         ))}
       </ul>
-    ) : (
-      <Preloader />
-    );
-    return recentPlaylists;
-  }
-}
+      {allPlaylists.length === 0 ? (
+        <h5>
+          No playlists found :{'('} <br />
+          <br />
+          Add a playlist
+        </h5>
+      ) : null}
+      <AddPlaylistBtn />
+    </div>
+  );
+};
 
-export default Home;
+Home.propTypes = {
+  playlist: PropTypes.object.isRequired,
+  getPlaylists: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+  playlist: state.playlist
+});
+
+export default connect(
+  mapStateToProps,
+  { getPlaylists }
+)(Home);

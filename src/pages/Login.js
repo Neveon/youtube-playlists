@@ -1,48 +1,23 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { loginUser } from '../redux/actions/userActions';
 import { Link } from 'react-router-dom';
 
-import M from 'materialize-css/dist/js/materialize.min.js';
-
-const Login = props => {
+const Login = ({ loginUser, user: { loading }, history }) => {
   const [form, setForm] = useState({
     email: '',
-    password: '',
-    loading: false
+    password: ''
   });
 
   const onSubmit = e => {
     e.preventDefault();
-    setForm({ ...form, loading: true });
 
     const userData = {
       email: form.email,
       password: form.password
     };
-
-    localStorage.clear();
-
-    axios
-      .post('/login', userData)
-      .then(res => {
-        const FBIdToken = `Bearer ${res.data.token}`; // FBAuth response
-        localStorage.setItem('FBIdtoken', FBIdToken);
-        axios.defaults.headers.common['Authorization'] = FBIdToken;
-        M.toast({ html: 'Login Successful' });
-        props.history.push('/');
-      })
-      .catch(err => {
-        if (err.response.data.email) {
-          M.toast({ html: 'Please enter a valid email' });
-        }
-        if (err.response.data.password) {
-          M.toast({ html: 'Please enter a valid password' });
-        }
-        if (err.response.data.general) {
-          M.toast({ html: 'Wrong Credentials' });
-        }
-        setForm({ ...form, loading: false });
-      });
+    loginUser(userData, history);
   };
 
   const onChange = e => {
@@ -83,11 +58,28 @@ const Login = props => {
         <button
           className='btn waves-effect waves-light'
           type='submit'
-          disabled={form.loading}
+          disabled={loading}
         >
           Login
           <i className='material-icons right'>send</i>
         </button>
+        <br />
+        <br />
+        {loading ? (
+          <div className='preloader-wrapper small active'>
+            <div className='spinner-layer spinner-green-only'>
+              <div className='circle-clipper left'>
+                <div className='circle' />
+              </div>
+              <div className='gap-patch'>
+                <div className='circle' />
+              </div>
+              <div className='circle-clipper right'>
+                <div className='circle' />
+              </div>
+            </div>
+          </div>
+        ) : null}
         <br />
         <br />
         <small>
@@ -98,4 +90,16 @@ const Login = props => {
   );
 };
 
-export default Login;
+Login.propTypes = {
+  loginUser: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+export default connect(
+  mapStateToProps,
+  { loginUser }
+)(Login);

@@ -1,34 +1,57 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import {
+  deletePlaylist,
+  setCurrentPlaylist
+} from '../../redux/actions/playlistActions';
 
-import M from 'materialize-css/dist/js/materialize.min.js';
+const PlaylistItem = ({
+  playlistPassed,
+  deletePlaylist,
+  setCurrentPlaylist
+}) => {
+  const setCurrent = () => {
+    // Current used in PlaylistItemPage
+    setCurrentPlaylist(playlistPassed);
+  };
 
-const PlaylistItem = ({ playlist }) => {
   const onDelete = () => {
-    // axios.delete req.body.name = playlist.name
-    M.toast({ html: 'Playlist deleted' });
+    let name = playlistPassed.name;
+    deletePlaylist(name);
   };
 
   dayjs.extend(relativeTime);
   return (
-    <li className='collection-item'>
-      <div>
-        <a href='#edit-playlist-modal' className='modal-trigger'>
-          {playlist.name}
-        </a>
-        <br />
-        <span className='grey-text'>
-          <span className='black-text'>
-            Created {dayjs(playlist.createdAt).fromNow()}
+    <div>
+      <li className='collection-item'>
+        <div>
+          &#9833;{' '}
+          <Link to={`/${playlistPassed.name}`} onClick={setCurrent}>
+            {playlistPassed.name}
+          </Link>
+          &nbsp;&nbsp;
+          <span className='grey-text'>
+            <small>Created {dayjs(playlistPassed.createdAt).fromNow()}</small>
           </span>
-        </span>
-        <a href='#!' onClick={onDelete} className='secondary-content'>
-          <i className='material-icons grey-text'>delete</i>
-        </a>
-      </div>
-    </li>
+          <a href='#!' onClick={onDelete} className='secondary-content'>
+            <i className='material-icons red-text'>remove_circle</i>
+          </a>
+        </div>
+      </li>
+    </div>
   );
 };
 
-export default PlaylistItem;
+PlaylistItem.propTypes = {
+  deletePlaylist: PropTypes.func.isRequired,
+  setCurrentPlaylist: PropTypes.func.isRequired
+};
+
+export default connect(
+  null,
+  { deletePlaylist, setCurrentPlaylist }
+)(PlaylistItem);

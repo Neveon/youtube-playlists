@@ -67,13 +67,15 @@ const ReactYouTubeExample = props => {
   };
   const { videoId } = props;
   return (
-    <YouTube
-      videoId={videoId}
-      opts={opts}
-      onReady={onPlayerReady}
-      onPlay={videoOnPlay}
-      onStateChange={videoStateChange}
-    />
+    <div>
+      <YouTube
+        videoId={videoId}
+        opts={opts}
+        onReady={onPlayerReady}
+        onPlay={videoOnPlay}
+        onStateChange={videoStateChange}
+      />
+    </div>
   );
 };
 

@@ -4,6 +4,7 @@ html {
   height: 100%;
   padding: 0;
   margin: 0;
+  background: rgb(245, 245, 245);
 }
 
 body {
@@ -11,9 +12,30 @@ body {
   overflow-x: hidden;
 }
 
-.container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.collection-header {
+  border-bottom: 2px solid black !important;
+}
+.collection-item {
+  border-bottom: 2px solid #e0e0e0 !important;
+}
+
+.collection {
+  border-radius: 15px;
+  box-shadow: 2px 2px 2px black;
+}
+
+a {
+  color: black;
+  text-decoration: underline;
+}
+
+h5 {
+  text-align: center;
+}
+
+#toast-container {
+  position: absolute !important;
+  top: 50px !important;
+  left: 0px !important;
+  width: 400px;
 }
