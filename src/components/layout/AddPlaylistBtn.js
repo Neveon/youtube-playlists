@@ -4,14 +4,24 @@ import { addPlaylist } from '../../redux/actions/playlistActions';
 import PropTypes from 'prop-types';
 import M from 'materialize-css/dist/js/materialize.min.js';
 
-const AddPlaylistBtn = ({ addPlaylist }) => {
+const AddPlaylistBtn = ({ addPlaylist, playlist }) => {
   const [playlistName, setPlaylistName] = useState('');
   const [videoID, setVideoID] = useState('');
   const [loading, setLoading] = useState(false);
+  // set pulse if user has no playlist
+  const [pulse, setPulse] = useState('');
+  let allPlaylists = playlist.allPlaylists;
 
   useEffect(() => {
     M.AutoInit();
-  }, []);
+
+    if (allPlaylists.length === 0 || allPlaylists === null) {
+      setPulse('pulse');
+    } else {
+      setPulse('');
+    }
+    // activate effect when value changes
+  }, [allPlaylists]);
 
   const handleChange = e => {
     e.target.id === 'name'
@@ -39,7 +49,7 @@ const AddPlaylistBtn = ({ addPlaylist }) => {
       <div className='fixed-action-btn'>
         <a
           href='#add-playlist-modal'
-          className='btn-floating btn-large green darken-3 modal-trigger'
+          className={`btn-floating btn-large green darken-3 modal-trigger ${pulse}`}
         >
           <i className='large material-icons'>playlist_add</i>
         </a>
@@ -99,10 +109,15 @@ const AddPlaylistBtn = ({ addPlaylist }) => {
 };
 
 AddPlaylistBtn.propTypes = {
-  addPlaylist: PropTypes.func.isRequired
+  addPlaylist: PropTypes.func.isRequired,
+  playlist: PropTypes.object.isRequired
 };
 
+const mapStateToProps = state => ({
+  playlist: state.playlist
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   { addPlaylist }
 )(AddPlaylistBtn);
