@@ -3,7 +3,9 @@ import {
   ADD_PLAYLIST,
   REMOVE_PLAYLIST,
   SET_CURRENT,
-  CLEAR_CURRENT
+  CLEAR_CURRENT,
+  ADD_VIDEO,
+  REMOVE_VIDEO
 } from '../types';
 
 import axios from 'axios';
@@ -47,6 +49,7 @@ export const addPlaylist = (name, video) => dispatch => {
     name: name,
     list: [video]
   };
+
   axios
     .put('/addPlaylist', playlist)
     .then(res => {
@@ -56,6 +59,44 @@ export const addPlaylist = (name, video) => dispatch => {
     .catch(err => {
       console.log(err);
       M.toast({ html: 'Error, please try again later' });
+    });
+};
+
+// Add video to playlist
+export const addVideo = (name, video) => dispatch => {
+  let vidToAdd = {
+    videoId: video,
+    name: name
+  };
+
+  axios
+    .put('/addPlaylistVideo', vidToAdd)
+    .then(res => {
+      M.toast({ html: res.data.message });
+      dispatch({ type: ADD_VIDEO, payload: video });
+    })
+    .catch(err => {
+      console.log(err);
+      M.toast({ html: err.data.general || err.data.error });
+    });
+};
+
+// Add video to playlist
+export const removeVideo = (name, video) => dispatch => {
+  let vidToAdd = {
+    videoId: video,
+    name: name
+  };
+
+  axios
+    .post('/removePlaylistVideo', vidToAdd)
+    .then(res => {
+      M.toast({ html: res.data.message });
+      dispatch({ type: REMOVE_VIDEO, payload: video });
+    })
+    .catch(err => {
+      console.log(err);
+      M.toast({ html: err.data.general || err.data.error });
     });
 };
 

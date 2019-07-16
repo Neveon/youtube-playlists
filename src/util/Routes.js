@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
-import PlaylistItemPage from '../components/layout/PlaylistItemPage';
+import PlaylistItemPage from '../components/PlaylistItemPage';
 
 // Auth
 import AuthRoute from './AuthRoute';

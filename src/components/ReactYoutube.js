@@ -1,22 +1,14 @@
 import React, { useEffect } from 'react';
 import YouTube from 'react-youtube';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-const ReactYouTubeExample = props => {
-  const playlist = [];
+const ReactYouTubeExample = ({ current }) => {
+  const playlist = current.list;
 
   useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch('/playlists/John');
-      const data = await res.json();
-      for (let v in data.list) {
-        playlist.push(data.list[v]);
-      }
-    };
-    fetchData();
-    // const data = await res.json();
-    // playlist.push(data);
-    //eslint-disable-next-line
-  }, []);
+    // Update every time list is updated
+  }, [current.list]);
   // videoOnReady(event) {
   //   // access to player in all event handlers via event.target
   //   // event.target.playVideoAt(50) // 50 seconds
@@ -27,16 +19,16 @@ const ReactYouTubeExample = props => {
   //   player.seekTo(50);
   //   console.log(event.target);
   // }
-  const videoOnPlay = event => {
-    // access to player in all event handlers via event.target
-    // event.target.playVideoAt(50) // 50 seconds
-    const player = event.target;
-    console.log(player.getCurrentTime());
-  };
-  const videoStateChange = event => {
-    const player = event.target;
-    console.log(player.getCurrentTime());
-  };
+  // const videoOnPlay = event => {
+  //   // access to player in all event handlers via event.target
+  //   // event.target.playVideoAt(50) // 50 seconds
+  //   const player = event.target;
+  //   //console.log(player.getCurrentTime());
+  // };
+  // const videoStateChange = event => {
+  //   const player = event.target;
+  //   //console.log(player.getCurrentTime());
+  // };
 
   // When changning page, saves where player left off
   // Can useEffect with return function to mimic componentWillUnmount
@@ -50,9 +42,12 @@ const ReactYouTubeExample = props => {
     player.loadPlaylist(playlist);
   };
 
+  let height = window.innerHeight / 2.25;
+  let width = window.innerWidth / 1.25;
+
   const opts = {
-    height: '390',
-    width: '640',
+    height: height.toString(),
+    width: width.toString(),
     playerVars: {
       // https://developers.google.com/youtube/player_parameters
       rel: 0,
@@ -65,18 +60,26 @@ const ReactYouTubeExample = props => {
       suggestedQuality: 'default'
     }
   };
-  const { videoId } = props;
+  // const { videoId } = props;
   return (
     <div>
       <YouTube
-        videoId={videoId}
+        // videoId={videoId}
         opts={opts}
         onReady={onPlayerReady}
-        onPlay={videoOnPlay}
-        onStateChange={videoStateChange}
+        // onPlay={videoOnPlay}
+        // onStateChange={videoStateChange}
       />
     </div>
   );
 };
 
-export default ReactYouTubeExample;
+ReactYouTubeExample.propTypes = {
+  current: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  current: state.playlist.current
+});
+
+export default connect(mapStateToProps)(ReactYouTubeExample);

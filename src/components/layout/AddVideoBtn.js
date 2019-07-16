@@ -1,75 +1,53 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { addPlaylist } from '../../redux/actions/playlistActions';
+import { addVideo } from '../../redux/actions/playlistActions';
 import PropTypes from 'prop-types';
 import M from 'materialize-css/dist/js/materialize.min.js';
 
-const AddPlaylistBtn = ({ addPlaylist, playlist }) => {
+const AddPlaylistBtn = ({ addVideo, current }) => {
   const [playlistName, setPlaylistName] = useState('');
   const [videoID, setVideoID] = useState('');
   const [loading, setLoading] = useState(false);
-  // set pulse if user has no playlist
-  const [pulse, setPulse] = useState('');
-  let allPlaylists = playlist.allPlaylists;
 
   useEffect(() => {
     M.AutoInit();
-
-    if (allPlaylists.length === 0 || allPlaylists === null) {
-      setPulse('pulse');
-    } else {
-      setPulse('');
-    }
-    // activate effect when value changes
-  }, [allPlaylists]);
+    setPlaylistName(current.name);
+  }, []);
 
   const handleChange = e => {
-    e.target.id === 'name'
-      ? setPlaylistName(e.target.value)
-      : setVideoID(e.target.value);
+    setVideoID(e.target.value);
   };
 
   const handleSubmit = e => {
     e.preventDefault();
     setLoading(true);
 
-    if (videoID.trim() === '' || playlistName.trim() === '') {
-      M.toast({ html: 'Please enter a playlist name and video ID' });
+    if (videoID.trim() === '') {
+      M.toast({ html: 'Please enter a video ID' });
     } else if (videoID.split(' ').length > 1) {
       M.toast({ html: 'Please enter a videoID with no whitespace' });
     } else {
-      addPlaylist(playlistName, videoID);
-      M.toast({ html: `Added ${videoID}` });
+      addVideo(playlistName, videoID);
     }
     setLoading(false);
-    setPlaylistName('');
     setVideoID('');
   };
 
   return (
     <div>
-      <div className='fixed-action-btn'>
-        <a
-          href='#add-playlist-modal'
-          className={`btn-floating btn-large green darken-3 modal-trigger ${pulse}`}
-        >
-          <i className='large material-icons'>playlist_add</i>
-        </a>
-      </div>
+      <a
+        href='#add-video-modal'
+        className='waves-effect waves-light btn green accent-4 black-text'
+      >
+        <b className='btnTitle' id='btnTitleAdd'>
+          Add Video to Playlist
+        </b>
+        <i className='material-icons right'>add</i>
+      </a>
       <form onSubmit={handleSubmit}>
-        <div className='modal' id='add-playlist-modal'>
+        <div className='modal' id='add-video-modal'>
           <div className='modal-content'>
-            <h4>Add a Playlist</h4>
-            <div className='input-field'>
-              <input
-                type='text'
-                value={playlistName}
-                id='name'
-                className='validate'
-                onChange={handleChange}
-              />
-              <label htmlFor='name'>Enter Playlist Name</label>
-            </div>
+            <h4>Add a Video to {current.name}</h4>
             <div className='input-field'>
               <input
                 type='text'
@@ -93,7 +71,7 @@ const AddPlaylistBtn = ({ addPlaylist, playlist }) => {
                 type='submit'
                 disabled={loading}
               >
-                Add Playlist
+                Add Video
                 <i className='material-icons right'>add_box</i>
               </button>
             </a>
@@ -111,15 +89,15 @@ const AddPlaylistBtn = ({ addPlaylist, playlist }) => {
 };
 
 AddPlaylistBtn.propTypes = {
-  addPlaylist: PropTypes.func.isRequired,
-  playlist: PropTypes.object.isRequired
+  addVideo: PropTypes.func.isRequired,
+  current: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  playlist: state.playlist
+  current: state.playlist.current
 });
 
 export default connect(
   mapStateToProps,
-  { addPlaylist }
+  { addVideo }
 )(AddPlaylistBtn);

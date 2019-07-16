@@ -12,6 +12,7 @@ import M from 'materialize-css/dist/js/materialize.min.js';
 
 const Home = ({ playlist: { allPlaylists }, getPlaylists, history }) => {
   useEffect(() => {
+    M.AutoInit();
     // If token exists then get playlists, otherwise route user to login
     if (localStorage.getItem('FBIdtoken')) {
       getPlaylists();
@@ -39,11 +40,12 @@ const Home = ({ playlist: { allPlaylists }, getPlaylists, history }) => {
         ))}
       </ul>
       {allPlaylists.length === 0 ? (
-        <h5>
-          No playlists found :{'('} <br />
+        <div>
+          <h5>
+            No playlists found :{'('} <br />
+          </h5>
           <br />
-          Add a playlist
-        </h5>
+        </div>
       ) : null}
       <AddPlaylistBtn />
     </div>
