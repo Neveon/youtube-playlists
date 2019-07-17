@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { addPlaylist } from '../../redux/actions/playlistActions';
 import PropTypes from 'prop-types';
+
+// Materialize
 import M from 'materialize-css/dist/js/materialize.min.js';
 
 const AddPlaylistBtn = ({ addPlaylist, playlist }) => {

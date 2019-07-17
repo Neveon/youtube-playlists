@@ -77,26 +77,26 @@ export const addVideo = (name, video) => dispatch => {
     })
     .catch(err => {
       console.log(err);
-      M.toast({ html: err.data.general || err.data.error });
+      M.toast({ html: err });
     });
 };
 
 // Add video to playlist
 export const removeVideo = (name, video) => dispatch => {
-  let vidToAdd = {
+  let vidToRemove = {
     videoId: video,
     name: name
   };
 
   axios
-    .post('/removePlaylistVideo', vidToAdd)
+    .post('/removePlaylistVideo', vidToRemove)
     .then(res => {
       M.toast({ html: res.data.message });
       dispatch({ type: REMOVE_VIDEO, payload: video });
     })
     .catch(err => {
       console.log(err);
-      M.toast({ html: err.data.general || err.data.error });
+      M.toast({ html: err });
     });
 };
 

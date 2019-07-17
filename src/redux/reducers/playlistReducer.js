@@ -35,12 +35,14 @@ export default (state = initialState, action) => {
         )
       };
     case ADD_VIDEO:
-      if (state.current.list.indexOf(action.payload) === -1) {
+      if (state.current[0].list.indexOf(action.payload) === -1) {
+        let deepCopyCurrent = JSON.parse(JSON.stringify(state.current));
+        deepCopyCurrent[0].list.push(action.payload);
         return {
-          current: state.current.list.push(action.payload), // Push to current list
+          current: deepCopyCurrent,
           allPlaylists: state.allPlaylists.map(playlist => {
-            if (playlist.name === state.current.name) {
-              playlist.push(action.payload);
+            if (playlist.name === state.current[0].name) {
+              playlist.list.push(action.payload);
             }
             return playlist;
           })
@@ -51,15 +53,19 @@ export default (state = initialState, action) => {
       }
     case REMOVE_VIDEO:
       // if the video doesn't exist in current then nothing to remove
-      if (state.current.list.indexOf(action.payload) === -1) {
+      if (state.current[0].list.indexOf(action.payload) === -1) {
         M.toast({ html: 'Video already removed' });
         return state;
       } else {
         // filter video ID from current and playlist list
+        let deepCopyCurrent = JSON.parse(JSON.stringify(state.current));
+        deepCopyCurrent[0].list = deepCopyCurrent[0].list.filter(
+          id => id !== action.payload
+        );
         return {
-          current: state.current.list.filter(id => id !== action.payload),
+          current: deepCopyCurrent,
           allPlaylists: state.allPlaylists.map(playlist => {
-            if (playlist.name === state.current.name) {
+            if (playlist.name === state.current[0].name) {
               playlist.list.filter(id => id !== action.payload);
             }
             return playlist;
@@ -69,7 +75,7 @@ export default (state = initialState, action) => {
     case SET_CURRENT:
       return {
         ...state,
-        current: action.payload
+        current: [action.payload]
       };
     case CLEAR_CURRENT:
       return {

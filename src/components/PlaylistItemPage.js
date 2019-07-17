@@ -4,32 +4,32 @@ import PropTypes from 'prop-types';
 import ReactYoutube from './ReactYoutube';
 import { Link } from 'react-router-dom';
 
+// Layout
+import AddVideoBtn from './layout/AddVideoBtn';
+import RemoveVideoBtn from './layout/RemoveVideoBtn';
+import LogoutBtn from './layout/LogoutBtn';
+
 import M from 'materialize-css/dist/js/materialize.min.js';
 import 'materialize-css/dist/css/materialize.min.css';
 
-const PlaylistItemPage = ({ current }) => {
+const PlaylistItemPage = ({ current: { name } }) => {
+  //const [currentPlaylist, setCurrentPlaylist] = useState(current.list);
+
   useEffect(() => {
     M.AutoInit();
-  }, [current.list]);
+    //setCurrentPlaylist(current.list);
+  }, []);
 
   return (
     <div className='container'>
       <div className='row'>
         <div className='left-align'>
-          <p>
-            'URL'+vidID anchor tags{' '}
-            <i className='material-icons left'>format_list_numbered</i>
-          </p>
-        </div>
-        <div className='right-align'>
-          <a className='waves-effect waves-light btn' href='#!'>
-            Logout<i className='material-icons left'>backspace</i>
-          </a>
+          <LogoutBtn />
         </div>
       </div>
       <div className='row'>
         <h2 className='center-align' id='currentPlaylistTitle'>
-          &#9835; {current.name} Playlist &#9835;
+          &#9835; {name} Playlist &#9835;
         </h2>
         <div className='note-position-1 note-animation'>&#9835;</div>
         <div className='note-position-2 note-animation animation-delay-2'>
@@ -52,26 +52,10 @@ const PlaylistItemPage = ({ current }) => {
 
       <div className='row'>
         <div className='col s6 center-align'>
-          <a
-            href='#!'
-            className='waves-effect waves-light btn green accent-4 black-text'
-          >
-            <b className='btnTitle' id='btnTitleAdd'>
-              Add Video to Playlist
-            </b>
-            <i className='material-icons right'>add</i>
-          </a>
+          <AddVideoBtn />
         </div>
         <div className='col s6 center-align'>
-          <a
-            href='#!'
-            className='waves-effect waves-light btn red accent-2 black-text'
-          >
-            <b className='btnTitle' id='btnTitleRemove'>
-              Remove Video from Playlist
-            </b>
-            <i className='material-icons right'>remove</i>
-          </a>
+          <RemoveVideoBtn />
         </div>
       </div>
       <div className='center-align'>
@@ -100,7 +84,7 @@ PlaylistItemPage.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  current: state.playlist.current
+  current: state.playlist.current[0]
 });
 
 export default connect(mapStateToProps)(PlaylistItemPage);

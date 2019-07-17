@@ -7,6 +7,7 @@ import { getPlaylists } from '../redux/actions/playlistActions';
 
 // Layout
 import AddPlaylistBtn from '../components/layout/AddPlaylistBtn';
+import LogoutBtn from '../components/layout/LogoutBtn';
 
 import M from 'materialize-css/dist/js/materialize.min.js';
 
@@ -31,6 +32,7 @@ const Home = ({ playlist: { allPlaylists }, getPlaylists, history }) => {
 
   return (
     <div>
+      <LogoutBtn />
       <ul className='collection with-header'>
         <li className='collection-header'>
           <h4 className='center'>&#9835; Your Playlists &#9835;</h4>

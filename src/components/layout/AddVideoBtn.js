@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { addVideo } from '../../redux/actions/playlistActions';
 import PropTypes from 'prop-types';
+
 import M from 'materialize-css/dist/js/materialize.min.js';
 
-const AddPlaylistBtn = ({ addVideo, current }) => {
-  const [playlistName, setPlaylistName] = useState('');
+const AddVideoBtn = ({ addVideo, current: { name } }) => {
+  const playlistName = name;
   const [videoID, setVideoID] = useState('');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     M.AutoInit();
-    setPlaylistName(current.name);
   }, []);
 
   const handleChange = e => {
@@ -37,17 +37,19 @@ const AddPlaylistBtn = ({ addVideo, current }) => {
     <div>
       <a
         href='#add-video-modal'
-        className='waves-effect waves-light btn green accent-4 black-text'
+        className='waves-effect waves-light btn green accent-4 black-text modal-trigger'
       >
         <b className='btnTitle' id='btnTitleAdd'>
           Add Video to Playlist
         </b>
         <i className='material-icons right'>add</i>
       </a>
-      <form onSubmit={handleSubmit}>
-        <div className='modal' id='add-video-modal'>
+
+      <div className='modal' id='add-video-modal'>
+        <form onSubmit={handleSubmit}>
           <div className='modal-content'>
-            <h4>Add a Video to {current.name}</h4>
+            <h4>Add a Video to {name}</h4>
+
             <div className='input-field'>
               <input
                 type='text'
@@ -57,11 +59,11 @@ const AddPlaylistBtn = ({ addVideo, current }) => {
                 onChange={handleChange}
               />
               <label htmlFor='videoID'>
-                Enter a Video ID to add to playlist
+                Enter a YouTube Video ID to add to playlist
               </label>
             </div>
             <a href='https://docs.joeworkman.net/rapidweaver/stacks/youtube/video-id'>
-              <small>Don't Know what a video ID is?</small>
+              <small>Don't Know what a YouTube video ID is?</small>
             </a>
           </div>
           <div className='modal-footer'>
@@ -82,22 +84,22 @@ const AddPlaylistBtn = ({ addVideo, current }) => {
               Close
             </a>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   );
 };
 
-AddPlaylistBtn.propTypes = {
+AddVideoBtn.propTypes = {
   addVideo: PropTypes.func.isRequired,
   current: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  current: state.playlist.current
+  current: state.playlist.current[0]
 });
 
 export default connect(
   mapStateToProps,
   { addVideo }
-)(AddPlaylistBtn);
+)(AddVideoBtn);

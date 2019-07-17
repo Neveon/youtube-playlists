@@ -8,7 +8,7 @@ const ReactYouTubeExample = ({ current }) => {
 
   useEffect(() => {
     // Update every time list is updated
-  }, [current.list]);
+  }, [playlist]);
   // videoOnReady(event) {
   //   // access to player in all event handlers via event.target
   //   // event.target.playVideoAt(50) // 50 seconds
@@ -42,8 +42,14 @@ const ReactYouTubeExample = ({ current }) => {
     player.loadPlaylist(playlist);
   };
 
+  // Fixes video width from stretching
   let height = window.innerHeight / 2.25;
-  let width = window.innerWidth / 1.25;
+  let width;
+  if (window.innerWidth < 1000) {
+    width = window.innerWidth / 1.25;
+  } else {
+    width = 600;
+  }
 
   const opts = {
     height: height.toString(),
@@ -79,7 +85,7 @@ ReactYouTubeExample.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  current: state.playlist.current
+  current: state.playlist.current[0]
 });
 
 export default connect(mapStateToProps)(ReactYouTubeExample);

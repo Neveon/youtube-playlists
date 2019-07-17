@@ -33,13 +33,17 @@ a {
   text-decoration: none;
 }
 
+#logoutTitle {
+  font-size: 12px;
+}
+
 h5 {
   text-align: center;
 }
 
 #toast-container {
   position: absolute !important;
-  bottom: 50px !important;
+  bottom: 30px !important;
   left: 0px !important;
   width: 400px;
 }
@@ -134,7 +138,7 @@ h5 {
     font-size: 12px;
   }
   #btnTitleRemove::before {
-    content: 'Remove Video';
+    content: 'Video List';
     visibility: visible;
     display: block;
     font-size: 12px;
@@ -162,7 +166,7 @@ h5 {
     font-size: 9px;
   }
   #btnTitleRemove::before {
-    content: 'Remove Video';
+    content: 'Video List';
     visibility: visible;
     display: block;
     font-size: 9px;
