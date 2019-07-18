@@ -21,6 +21,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm run build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -39,6 +40,5 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {},
-  "proxy": "https://us-central1-playlist-16862.cloudfunctions.net/api"
+  "devDependencies": {}
 }

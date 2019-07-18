@@ -16,6 +16,9 @@ import { logoutUser } from './redux/actions/userActions';
 // Routes
 import Routes from './util/Routes';
 
+axios.defaults.baseURL =
+  'https://us-central1-playlist-16862.cloudfunctions.net/api';
+
 // Checking for token in localStorage
 const token = localStorage.getItem('FBIdtoken');
 
