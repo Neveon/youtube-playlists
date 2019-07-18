@@ -11,7 +11,7 @@ import LogoutBtn from '../components/layout/LogoutBtn';
 
 import M from 'materialize-css/dist/js/materialize.min.js';
 
-const Home = ({ playlist: { allPlaylists }, getPlaylists, history }) => {
+const Home = ({ allPlaylists, getPlaylists, history }) => {
   useEffect(() => {
     M.AutoInit();
     // If token exists then get playlists, otherwise route user to login
@@ -55,12 +55,12 @@ const Home = ({ playlist: { allPlaylists }, getPlaylists, history }) => {
 };
 
 Home.propTypes = {
-  playlist: PropTypes.object.isRequired,
-  getPlaylists: PropTypes.func.isRequired
+  getPlaylists: PropTypes.func.isRequired,
+  allPlaylists: PropTypes.array.isRequired
 };
 
 const mapStateToProps = state => ({
-  playlist: state.playlist
+  allPlaylists: state.playlist.allPlaylists
 });
 
 export default connect(

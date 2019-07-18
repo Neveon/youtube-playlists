@@ -12,7 +12,7 @@ import M from 'materialize-css/dist/js/materialize.min.js';
 // state defined in store as playlist
 const initialState = {
   current: null,
-  allPlaylists: null
+  allPlaylists: []
 };
 
 export default (state = initialState, action) => {

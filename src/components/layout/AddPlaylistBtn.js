@@ -22,7 +22,7 @@ const AddPlaylistBtn = ({ addPlaylist, playlist }) => {
     } else {
       setPulse('');
     }
-    // activate effect when value changes
+    // activate when following value changes
   }, [allPlaylists]);
 
   const handleChange = e => {
