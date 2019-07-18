@@ -84,7 +84,11 @@ const AddPlaylistBtn = ({ addPlaylist, playlist }) => {
                 Enter a Video ID to add to playlist
               </label>
             </div>
-            <a href='https://docs.joeworkman.net/rapidweaver/stacks/youtube/video-id'>
+            <a
+              href='https://docs.joeworkman.net/rapidweaver/stacks/youtube/video-id'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
               <small>Don't Know what a video ID is?</small>
             </a>
           </div>
