@@ -14,21 +14,7 @@ import AuthRoute from './AuthRoute';
 // Redux
 import { connect } from 'react-redux';
 
-const Routes = ({ playlist: { allPlaylists } }) => {
-  let playlistRoutes;
-  if (allPlaylists !== null) {
-    playlistRoutes = allPlaylists.map(playlist => (
-      <Route
-        key={playlist.name}
-        exact
-        path={`/${playlist.name}`}
-        component={PlaylistItemPage}
-      />
-    ));
-  } else {
-    playlistRoutes = null;
-  }
-
+const Routes = ({ allPlaylists }) => {
   return (
     <Router>
       <div className='container'>
@@ -36,7 +22,16 @@ const Routes = ({ playlist: { allPlaylists } }) => {
           <Route exact path='/' component={Home} />
           <AuthRoute exact path='/login' component={Login} />
           <AuthRoute exact path='/signup' component={Signup} />
-          {playlistRoutes}
+          {allPlaylists !== null
+            ? allPlaylists.map(playlist => (
+                <Route
+                  key={playlist.name}
+                  exact
+                  path={`/${playlist.name}`}
+                  component={PlaylistItemPage}
+                />
+              ))
+            : null}
         </Switch>
       </div>
     </Router>
@@ -44,11 +39,11 @@ const Routes = ({ playlist: { allPlaylists } }) => {
 };
 
 Routes.propTypes = {
-  playlist: PropTypes.object.isRequired
+  allPlaylists: PropTypes.array.isRequired
 };
 
 const mapStateToProps = state => ({
-  playlist: state.playlist
+  allPlaylists: state.playlist.allPlaylists
 });
 
 export default connect(mapStateToProps)(Routes);
