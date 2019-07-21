@@ -37,7 +37,8 @@ export default (state = initialState, action) => {
     case ADD_VIDEO:
       if (state.current[0].list.indexOf(action.payload) === -1) {
         let deepCopyCurrent = JSON.parse(JSON.stringify(state.current));
-        deepCopyCurrent[0].list.push(action.payload);
+        //deepCopyCurrent[0].list.push(action.payload);
+        deepCopyCurrent[0].list = [...deepCopyCurrent[0].list, action.payload];
         return {
           current: deepCopyCurrent,
           allPlaylists: state.allPlaylists.map(playlist => {
