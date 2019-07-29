@@ -10,6 +10,7 @@ export const REMOVE_VIDEO = 'REMOVE_VIDEO';
 export const PLAYLIST_ERROR = 'PLAYLIST_ERROR';
 export const VIDEO_ERROR = 'VIDEO_ERROR';
 export const SET_LOADING = 'SET_LOADING'; // Used in user reducer for UI changes
+export const DONE_LOADING = 'DONE_LOADING';
 
 // User
 export const GET_USER = 'GET_USER';

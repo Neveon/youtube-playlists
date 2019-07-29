@@ -3,6 +3,18 @@ import axios from 'axios';
 
 import M from 'materialize-css/dist/js/materialize.min.js';
 
+export const getUserData = () => dispatch => {
+  axios
+    .get('/user')
+    .then(res => {
+      dispatch({
+        type: SET_AUTHENTICATED,
+        payload: res.data.credentials
+      });
+    })
+    .catch(err => console.log(err));
+};
+
 export const loginUser = (userData, history) => dispatch => {
   dispatch({ type: SET_LOADING });
   axios
@@ -12,16 +24,15 @@ export const loginUser = (userData, history) => dispatch => {
       localStorage.setItem('FBIdtoken', FBIdToken);
       axios.defaults.headers.common['Authorization'] = FBIdToken;
       M.toast({ html: 'Login Successful' });
-      dispatch({ type: SET_AUTHENTICATED });
       history.push('/');
     })
     .catch(err => {
       dispatch({ type: SET_UNAUTHENTICATED });
       if (err.response.data.email) {
-        M.toast({ html: 'Please enter a valid email' });
+        M.toast({ html: `Email ${err.response.data.email}` });
       }
       if (err.response.data.password) {
-        M.toast({ html: 'Please enter a valid password' });
+        M.toast({ html: `Password ${err.response.data.password}` });
       }
       if (err.response.data.general) {
         M.toast({ html: 'Wrong Credentials' });
@@ -44,7 +55,6 @@ export const signupUser = (userData, history) => dispatch => {
       localStorage.setItem('FBIdtoken', FBIdToken);
       axios.defaults.headers.common['Authorization'] = FBIdToken;
       M.toast({ html: 'Sign up Successful' });
-      dispatch({ type: SET_AUTHENTICATED });
       history.push('/');
     })
     .catch(err => {

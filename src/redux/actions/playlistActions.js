@@ -5,21 +5,50 @@ import {
   SET_CURRENT,
   CLEAR_CURRENT,
   ADD_VIDEO,
-  REMOVE_VIDEO
+  REMOVE_VIDEO,
+  SET_LOADING,
+  DONE_LOADING
 } from '../types';
 
 import axios from 'axios';
 import M from 'materialize-css/dist/js/materialize.min.js';
 
-// Get playlists from server
+// Get user's playlists from server
 export const getPlaylists = () => dispatch => {
   try {
+    dispatch({
+      type: SET_LOADING
+    });
     const FBIdToken = localStorage.getItem('FBIdtoken');
     axios.defaults.headers.common['Authorization'] = FBIdToken;
     axios.get('/playlists').then(res => {
       dispatch({
         type: GET_PLAYLIST,
         payload: res.data
+      });
+      dispatch({
+        type: DONE_LOADING
+      });
+    });
+  } catch (err) {
+    M.toast({ html: err.response.data });
+    console.error(err.response.data);
+  }
+};
+
+// Get all playlists from server - no auth required
+export const getAllPlaylists = () => dispatch => {
+  try {
+    dispatch({
+      type: SET_LOADING
+    });
+    axios.get('/allPlaylists').then(res => {
+      dispatch({
+        type: GET_PLAYLIST,
+        payload: res.data
+      });
+      dispatch({
+        type: DONE_LOADING
       });
     });
   } catch (err) {
@@ -44,6 +73,7 @@ export const deletePlaylist = name => dispatch => {
   }
 };
 
+// Add playlist
 export const addPlaylist = (name, video) => dispatch => {
   let playlist = {
     name: name,
@@ -53,12 +83,10 @@ export const addPlaylist = (name, video) => dispatch => {
   axios
     .put('/addPlaylist', playlist)
     .then(res => {
-      dispatch({ type: ADD_PLAYLIST, payload: name });
+      dispatch({ type: ADD_PLAYLIST, payload: res.data });
     })
-    .then(() => window.location.reload()) // Reload to update playlistItems w no errors
     .catch(err => {
-      console.log(err);
-      M.toast({ html: 'Error, please try again later' });
+      M.toast({ html: `${err.response.data.general}` });
     });
 };
 
@@ -81,7 +109,7 @@ export const addVideo = (name, video) => dispatch => {
     });
 };
 
-// Add video to playlist
+// Remove video from playlist
 export const removeVideo = (name, video) => dispatch => {
   let vidToRemove = {
     videoId: video,

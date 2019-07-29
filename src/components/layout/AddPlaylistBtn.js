@@ -41,7 +41,6 @@ const AddPlaylistBtn = ({ addPlaylist, playlist }) => {
       M.toast({ html: 'Please enter a videoID with no whitespace' });
     } else {
       addPlaylist(playlistName, videoID);
-      M.toast({ html: `Added ${videoID}` });
     }
     setLoading(false);
     setPlaylistName('');
