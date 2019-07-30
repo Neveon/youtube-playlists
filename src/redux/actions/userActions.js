@@ -1,4 +1,4 @@
-import { SET_UNAUTHENTICATED, SET_LOADING, SET_AUTHENTICATED } from '../types';
+import { SET_UNAUTHENTICATED, SET_AUTHENTICATED } from '../types';
 import axios from 'axios';
 
 import M from 'materialize-css/dist/js/materialize.min.js';
@@ -12,11 +12,14 @@ export const getUserData = () => dispatch => {
         payload: res.data.credentials
       });
     })
-    .catch(err => console.log(err));
+    .catch(() => {
+      dispatch({
+        type: SET_UNAUTHENTICATED
+      });
+    });
 };
 
 export const loginUser = (userData, history) => dispatch => {
-  dispatch({ type: SET_LOADING });
   axios
     .post('/login', userData)
     .then(res => {
@@ -47,7 +50,6 @@ export const logoutUser = () => dispatch => {
 };
 
 export const signupUser = (userData, history) => dispatch => {
-  dispatch({ type: SET_LOADING });
   axios
     .post('/signup', userData)
     .then(res => {
