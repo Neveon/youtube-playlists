@@ -32,7 +32,6 @@ export const getPlaylists = () => dispatch => {
     });
   } catch (err) {
     M.toast({ html: err.response.data });
-    console.error(err.response.data);
   }
 };
 
@@ -53,7 +52,6 @@ export const getAllPlaylists = () => dispatch => {
     });
   } catch (err) {
     M.toast({ html: err.response.data });
-    console.error(err.response.data);
   }
 };
 
@@ -123,17 +121,30 @@ export const removeVideo = (name, video) => dispatch => {
       dispatch({ type: REMOVE_VIDEO, payload: video });
     })
     .catch(err => {
-      console.log(err);
-      M.toast({ html: err });
+      M.toast({ html: err.response.data });
     });
 };
 
 // Selected playlist
 export const setCurrentPlaylist = playlist => dispatch => {
+  let playlistToGet = {
+    name: playlist
+  };
   dispatch({
-    type: SET_CURRENT,
-    payload: playlist
+    type: SET_LOADING
   });
+  axios
+    .post('/playlist', playlistToGet)
+    .then(res => {
+      dispatch({
+        type: SET_CURRENT,
+        payload: res.data
+      });
+      dispatch({
+        type: DONE_LOADING
+      });
+    })
+    .catch(err => M.toast({ html: err.response.data }));
 };
 
 export const clearCurrentPlaylist = () => dispatch => {
