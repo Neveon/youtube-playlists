@@ -10,7 +10,7 @@ import './App.css';
 // Redux
 import { Provider } from 'react-redux';
 import store from './redux/store';
-import { logoutUser, getUserData } from './redux/actions/userActions';
+import { logoutUser } from './redux/actions/userActions';
 
 // Routes
 import Routes from './util/Routes';
@@ -31,7 +31,6 @@ if (token) {
     window.location.href = '/login';
   } else {
     axios.defaults.headers.common['Authorization'] = token;
-    store.dispatch(getUserData()); // gets user credentials - uid and username
   }
 }
 
