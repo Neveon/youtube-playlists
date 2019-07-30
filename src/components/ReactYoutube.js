@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 const ReactYouTubeExample = ({ current }) => {
-  const playlist = current.list;
+  const playlist = current[0].list;
 
   useEffect(() => {
     // Update every time list is updated
@@ -81,11 +81,11 @@ const ReactYouTubeExample = ({ current }) => {
 };
 
 ReactYouTubeExample.propTypes = {
-  current: PropTypes.object.isRequired
+  current: PropTypes.array.isRequired
 };
 
 const mapStateToProps = state => ({
-  current: state.playlist.current[0]
+  current: state.playlist.current
 });
 
 export default connect(mapStateToProps)(ReactYouTubeExample);
