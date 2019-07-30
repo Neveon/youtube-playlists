@@ -11,7 +11,7 @@ import M from 'materialize-css/dist/js/materialize.min.js';
 
 // state defined in store as playlist
 const initialState = {
-  current: null,
+  current: [],
   allPlaylists: []
 };
 
@@ -81,7 +81,7 @@ export default (state = initialState, action) => {
     case CLEAR_CURRENT:
       return {
         ...state,
-        current: null
+        current: []
       };
     default:
       return state;
