@@ -1,7 +1,14 @@
-import { SET_UNAUTHENTICATED, SET_AUTHENTICATED } from '../types';
+import { SET_UNAUTHENTICATED, SET_AUTHENTICATED, SET_BASE_URL } from '../types';
 import axios from 'axios';
 
 import M from 'materialize-css/dist/js/materialize.min.js';
+
+export const setBaseUrl = url => dispatch => {
+  dispatch({
+    type: SET_BASE_URL,
+    payload: url
+  });
+};
 
 export const getUserData = () => dispatch => {
   axios
@@ -17,6 +24,12 @@ export const getUserData = () => dispatch => {
         type: SET_UNAUTHENTICATED
       });
     });
+};
+
+export const notAuthenticated = () => dispatch => {
+  dispatch({
+    type: SET_UNAUTHENTICATED
+  });
 };
 
 export const loginUser = (userData, history) => dispatch => {

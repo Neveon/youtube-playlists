@@ -2,13 +2,15 @@ import {
   SET_AUTHENTICATED,
   SET_UNAUTHENTICATED,
   SET_LOADING,
-  DONE_LOADING
+  DONE_LOADING,
+  SET_BASE_URL
 } from '../types';
 
 const initialState = {
   authenticated: false,
   loading: false,
-  credentials: null
+  credentials: null,
+  baseUrl: null
 };
 
 export default (state = initialState, action) => {
@@ -30,7 +32,16 @@ export default (state = initialState, action) => {
         loading: false
       };
     case SET_UNAUTHENTICATED:
-      return initialState;
+      return {
+        ...state,
+        authenticated: false,
+        credentials: null
+      };
+    case SET_BASE_URL:
+      return {
+        ...state,
+        baseUrl: action.payload
+      };
     default:
       return state;
   }

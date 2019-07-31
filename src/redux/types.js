@@ -17,3 +17,4 @@ export const GET_USER = 'GET_USER';
 export const SIGNUP_USER = 'SIGNUP_USER';
 export const SET_AUTHENTICATED = 'SET_AUTHENTICATED';
 export const SET_UNAUTHENTICATED = 'SET_UNAUTHENTICATED';
+export const SET_BASE_URL = 'SET_BASE_URL';
