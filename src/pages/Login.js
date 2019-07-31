@@ -45,8 +45,8 @@ const Login = ({ loginUser, user: { loading }, history }) => {
                 All playlists are unlisted and available publicly to explore.
                 <br />
                 <br />
-                You can create your own playlist here or explore to check out
-                what playlists are out there.
+                You can create your own playlist or explore to check out what
+                playlists are out there.
               </p>
             </div>
           </div>
