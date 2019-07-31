@@ -4,21 +4,9 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import {
-  deletePlaylist,
-  setCurrentPlaylist
-} from '../../redux/actions/playlistActions';
+import { deletePlaylist } from '../../redux/actions/playlistActions';
 
-const PlaylistItem = ({
-  playlistPassed,
-  deletePlaylist,
-  setCurrentPlaylist
-}) => {
-  const setCurrent = () => {
-    // Current used in PlaylistItemPage
-    setCurrentPlaylist(playlistPassed);
-  };
-
+const PlaylistItem = ({ playlistPassed, deletePlaylist }) => {
   const onDelete = () => {
     let name = playlistPassed.name;
     deletePlaylist(name);
@@ -30,7 +18,7 @@ const PlaylistItem = ({
       <li className='collection-item'>
         <div>
           &#9833;{' '}
-          <Link to={`/${playlistPassed.name}`} onClick={setCurrent}>
+          <Link to={`/playlist/${playlistPassed.name}`}>
             {playlistPassed.name}
           </Link>
           &nbsp;&nbsp;
@@ -47,11 +35,10 @@ const PlaylistItem = ({
 };
 
 PlaylistItem.propTypes = {
-  deletePlaylist: PropTypes.func.isRequired,
-  setCurrentPlaylist: PropTypes.func.isRequired
+  deletePlaylist: PropTypes.func.isRequired
 };
 
 export default connect(
   null,
-  { deletePlaylist, setCurrentPlaylist }
+  { deletePlaylist }
 )(PlaylistItem);
