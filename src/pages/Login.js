@@ -29,8 +29,8 @@ const Login = ({ loginUser, user: { loading }, history }) => {
 
   return (
     <div className='row'>
-      <Link to='/explore'>
-        <div className='col s12 m6'>
+      <div className='col s12 m6'>
+        <Link to='/explore'>
           <div id='exploreContainer'>
             <img src={ExploreImage} alt='Explore' className='responsive-img' />
             <p id='exploreTitle' className='flow-text'>
@@ -50,8 +50,9 @@ const Login = ({ loginUser, user: { loading }, history }) => {
               </p>
             </div>
           </div>
-        </div>
-      </Link>
+        </Link>
+      </div>
+
       <div className='col s12 m6'>
         <div className='row center-align'>
           <h1 className='text-center'>Login</h1>
