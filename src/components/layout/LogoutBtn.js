@@ -1,19 +1,20 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import M from 'materialize-css/dist/js/materialize.min.js';
 
-const LogoutBtn = () => {
+import { connect } from 'react-redux';
+import { logoutUser } from '../../redux/actions/userActions';
+
+const LogoutBtn = props => {
   const handleLogout = () => {
-    localStorage.clear();
+    props.logoutUser();
     M.toast({ html: 'Logging out...' });
-    setTimeout(() => {
-      window.location.href = '/login';
-    }, 1100);
   };
 
   return (
     <a
       className='waves-effect waves-light btn-small'
-      href='#!'
+      href={props.atHome ? '/login' : '#!'}
       onClick={handleLogout}
     >
       <b id='logoutTitle'>Logout</b>
@@ -22,4 +23,11 @@ const LogoutBtn = () => {
   );
 };
 
-export default LogoutBtn;
+LogoutBtn.propTypes = {
+  logoutUser: PropTypes.func.isRequired
+};
+
+export default connect(
+  null,
+  { logoutUser }
+)(LogoutBtn);

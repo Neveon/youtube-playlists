@@ -8,7 +8,7 @@ import { getPlaylists } from '../redux/actions/playlistActions';
 import {
   getUserData,
   setBaseUrl,
-  notAuthenticated
+  logoutUser
 } from '../redux/actions/userActions';
 
 // Layout
@@ -29,7 +29,7 @@ const Home = ({
   user,
   getUserData,
   setBaseUrl,
-  notAuthenticated
+  logoutUser
 }) => {
   useEffect(() => {
     M.AutoInit();
@@ -39,9 +39,10 @@ const Home = ({
       setBaseUrl('/'); // Sets base url
       getPlaylists(); // get user playlists
     } else {
-      notAuthenticated();
-      M.toast({ html: 'Please login' });
-      localStorage.clear();
+      M.toast({
+        html: 'Please login to see your playlists or explore other playlists'
+      });
+      logoutUser();
       history.push('/login');
     }
     // eslint-disable-next-line
@@ -62,7 +63,7 @@ const Home = ({
                 </Link>
               </li>
               <li>
-                <LogoutBtn />
+                <LogoutBtn atHome={true} />
               </li>
             </ul>
           </div>
@@ -92,7 +93,7 @@ const Home = ({
                 </Link>
               </li>
               <li>
-                <LogoutBtn />
+                <LogoutBtn atHome={true} />
               </li>
             </ul>
           </div>
@@ -117,7 +118,7 @@ Home.propTypes = {
   user: PropTypes.object.isRequired,
   getUserData: PropTypes.func.isRequired,
   setBaseUrl: PropTypes.func.isRequired,
-  notAuthenticated: PropTypes.func.isRequired
+  logoutUser: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -129,7 +130,7 @@ const mapDispatchToProps = {
   getPlaylists,
   getUserData,
   setBaseUrl,
-  notAuthenticated
+  logoutUser
 };
 
 export default connect(

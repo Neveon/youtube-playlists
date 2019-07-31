@@ -12,6 +12,10 @@ body {
   overflow-x: hidden;
 }
 
+.m-0 {
+  margin: 0;
+}
+
 #exploreContainer {
   position: relative;
 }
