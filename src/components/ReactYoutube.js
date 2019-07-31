@@ -68,7 +68,7 @@ const ReactYouTubeExample = ({ current }) => {
   };
   // const { videoId } = props;
   return (
-    <div>
+    <div className='video-container'>
       <YouTube
         // videoId={videoId}
         opts={opts}
