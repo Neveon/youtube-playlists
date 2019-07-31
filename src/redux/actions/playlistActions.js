@@ -31,7 +31,9 @@ export const getPlaylists = () => dispatch => {
       });
     });
   } catch (err) {
-    M.toast({ html: err.response.data });
+    M.toast({ html: 'Error getting playlists, try again later' });
+    M.toast({ html: 'Check console log for details' });
+    console.log(err);
   }
 };
 
@@ -51,7 +53,9 @@ export const getAllPlaylists = () => dispatch => {
       });
     });
   } catch (err) {
-    M.toast({ html: err.response.data });
+    M.toast({ html: 'Error getting playlists, try again later' });
+    M.toast({ html: 'Check console log for details' });
+    console.log(err);
   }
 };
 
@@ -66,8 +70,8 @@ export const deletePlaylist = name => dispatch => {
       });
     });
   } catch (err) {
-    M.toast({ html: err.response.data });
-    console.error(err.response.data);
+    M.toast({ html: 'Error, try again later. Check console log for details' });
+    console.log(err);
   }
 };
 
@@ -84,7 +88,7 @@ export const addPlaylist = (name, video) => dispatch => {
       dispatch({ type: ADD_PLAYLIST, payload: res.data });
     })
     .catch(err => {
-      M.toast({ html: `${err.response.data.general}` });
+      M.toast({ html: err.response.data.general });
     });
 };
 
@@ -103,7 +107,9 @@ export const addVideo = (name, video) => dispatch => {
     })
     .catch(err => {
       console.log(err);
-      M.toast({ html: err });
+      M.toast({
+        html: 'Error, try again later. Check console log for details'
+      });
     });
 };
 
@@ -144,7 +150,10 @@ export const setCurrentPlaylist = playlist => dispatch => {
         type: DONE_LOADING
       });
     })
-    .catch(err => M.toast({ html: err.response.data }));
+    .catch(err => {
+      M.toast({ html: 'Error try again' });
+      console.log(err);
+    });
 };
 
 export const clearCurrentPlaylist = () => dispatch => {
