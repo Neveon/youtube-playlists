@@ -298,7 +298,7 @@ h5 {
     left: 50%;
     transform: translate(-50%, 0); /* Not supported IE8 and lower */
     color: white;
-    font-size: 1.66rem;
+    font-size: 1.5rem;
     font-weight: 600;
   }
 
@@ -307,13 +307,13 @@ h5 {
     top: 20%;
     left: 50%;
     transform: translate(-50%, 0);
-    font-size: 4rem;
+    font-size: 3.3rem;
     background-color: rgba(0, 0, 0);
     border-radius: 50%;
   }
 
   #ExplorePageTitle {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
   }
 }
 
@@ -324,7 +324,7 @@ h5 {
     left: 50%;
     transform: translate(-50%, 0); /* Not supported IE8 and lower */
     color: white;
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 600;
   }
 
@@ -333,17 +333,17 @@ h5 {
     top: 20%;
     left: 50%;
     transform: translate(-50%, 0);
-    font-size: 1.7rem;
+    font-size: 1.2rem;
     background-color: rgba(0, 0, 0);
     border-radius: 50%;
   }
 
   #ExplorePageTitle {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 
   .ExplorePageIcon {
-    font-size: 0.9rem;
+    font-size: 0.75rem;
   }
 
   #currentPlaylistTitle {
