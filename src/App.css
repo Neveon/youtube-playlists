@@ -117,7 +117,7 @@ h5 {
 
 #toast-container {
   position: absolute !important;
-  bottom: 30px !important;
+  bottom: 40px !important;
   left: 0px !important;
   width: 400px;
 }
@@ -324,7 +324,7 @@ h5 {
     left: 50%;
     transform: translate(-50%, 0); /* Not supported IE8 and lower */
     color: white;
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 600;
   }
 
@@ -333,17 +333,17 @@ h5 {
     top: 20%;
     left: 50%;
     transform: translate(-50%, 0);
-    font-size: 2rem;
+    font-size: 1.7rem;
     background-color: rgba(0, 0, 0);
     border-radius: 50%;
   }
 
   #ExplorePageTitle {
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 
   .ExplorePageIcon {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 
   #currentPlaylistTitle {

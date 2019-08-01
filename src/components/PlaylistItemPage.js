@@ -121,6 +121,9 @@ class PlaylistItemPage extends Component {
           ) : null}
           <div className='center-align'>
             <ReactYoutube />
+            <br />
+            <br />
+            <br />
           </div>
           <div className='row'>
             <div className='col s12 center-align'>
