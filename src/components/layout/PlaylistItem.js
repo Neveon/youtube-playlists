@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { deletePlaylist } from '../../redux/actions/playlistActions';
 
+import 'materialize-css/dist/css/materialize.min.css';
 import M from 'materialize-css/dist/js/materialize.min.js';
 
 const PlaylistItem = ({ playlistPassed, deletePlaylist, user }) => {
