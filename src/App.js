@@ -15,7 +15,11 @@ import { logoutUser } from './redux/actions/userActions';
 // Routes
 import Routes from './util/Routes';
 
+<<<<<<< HEAD
 axios.defaults.baseURL = 'https://YOUR_FIREBASE_BACKEND.cloudfunctions.net/api';
+=======
+axios.defaults.baseURL = 'https://YOUR_PROJECT_HERE.cloudfunctions.net/api';
+>>>>>>> temp
 
 // Checking for token in localStorage
 const token = localStorage.getItem('FBIdtoken');
