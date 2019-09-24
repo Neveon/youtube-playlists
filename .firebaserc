@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "playlist-16862"
+  },
+  "targets": {
+    "playlist-16862": {
+      "hosting": {
+        "unlisted-playlists": [
+          "unlisted-playlists"
+        ]
+      }
+    }
   }
 }
