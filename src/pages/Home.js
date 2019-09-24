@@ -95,7 +95,7 @@ const Home = ({
         </div>
       </div>
     );
-  } else {
+  } else if (searchText === '') {
     return (
       <div>
         <nav>
@@ -132,6 +132,62 @@ const Home = ({
             {allPlaylists.map(playlist => (
               <PlaylistItem playlistPassed={playlist} key={playlist.name} />
             ))}
+          </ul>
+        </div>
+        <AddPlaylistBtn />
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <nav>
+          <div className='nav-wrapper'>
+            <Link to='/'>
+              <img src={Logo} alt='Playlist Logo' />
+            </Link>
+            <ul id='nav-mobile' className='right'>
+              <li id='exploreLink'>
+                <Link to='/explore'>
+                  <i className='material-icons'>explore</i>
+                </Link>
+              </li>
+              <li>
+                <LogoutBtn atHome={true} />
+              </li>
+            </ul>
+          </div>
+        </nav>
+        <div className='col' id='ifnav'>
+          <div className='center search input-field'>
+            <input
+              type='text'
+              id='search-input'
+              className='validate'
+              onChange={OnChangeSearch}
+            />
+            <label htmlFor='search-input'>Search</label>
+          </div>
+          <ul className='collection with-header' id='ifnav'>
+            <li className='collection-header'>
+              <h4 className='center'>&#9835; Your Playlists &#9835;</h4>
+            </li>
+            {allPlaylists
+              .filter(playlist => {
+                if (
+                  playlist.name
+                    .toLowerCase()
+                    .indexOf(searchText.toLowerCase()) > -1
+                ) {
+                  return true;
+                } else {
+                  return false;
+                }
+              })
+              .map(playlist => {
+                return (
+                  <PlaylistItem playlistPassed={playlist} key={playlist.name} />
+                );
+              })}
           </ul>
         </div>
         <AddPlaylistBtn />
