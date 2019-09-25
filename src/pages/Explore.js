@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -26,6 +26,8 @@ const Explore = ({
   loading,
   getUserData
 }) => {
+  const [searchText, setSearchText] = useState('');
+
   useEffect(() => {
     M.AutoInit();
 
@@ -33,13 +35,18 @@ const Explore = ({
       getUserData();
     }
 
+    // Get all playlists from server
+    getAllPlaylists();
+
     // Sets base url
     setBaseUrl('/explore');
 
-    // Get all playlists from server
-    getAllPlaylists();
-    // eslint-disable-next-line
+    //eslint-disable-next-line
   }, []);
+
+  const OnChangeSearch = e => {
+    setSearchText(e.target.value);
+  };
 
   if (loading) {
     // init null, loading screen
@@ -67,12 +74,94 @@ const Explore = ({
             </div>
           </nav>
         )}
-        <ul className='collection with-header' id='ifnav'>
-          <li className='collection-header'>
-            <h4 className='center'>&#9835; Explore All Playlists &#9835;</h4>
-          </li>
-          <Preloader />
-        </ul>
+        <div className='col' id='ifnav'>
+          <div className='center search input-field'>
+            <input
+              type='text'
+              id='search-input'
+              className='validate'
+              onChange={OnChangeSearch}
+            />
+            <label htmlFor='search-input'>Search</label>
+          </div>
+          <ul className='collection with-header' id='ifnav'>
+            <li className='collection-header'>
+              <h4 className='center'>&#9835; Explore All Playlists &#9835;</h4>
+            </li>
+            <Preloader />
+          </ul>
+        </div>
+      </div>
+    );
+  } else if (searchText === '') {
+    return (
+      <div>
+        {authenticated ? (
+          <nav>
+            <div className='nav-wrapper'>
+              <Link to='/'>
+                <img src={Logo} alt='Playlist Logo' />
+              </Link>
+              <ul id='nav-mobile' className='right'>
+                <li>
+                  <LogoutBtn />
+                </li>
+              </ul>
+            </div>
+          </nav>
+        ) : (
+          <nav>
+            <div className='nav-wrapper'>
+              <Link to='/'>
+                <img src={Logo} alt='Playlist Logo' />
+              </Link>
+              <ul id='nav-mobile' className='right'>
+                <li>
+                  <Link to='/login'>
+                    <i className='material-icons'>person</i>
+                    Login
+                  </Link>
+                </li>
+                <li>
+                  <Link to='/signup'>
+                    <i className='material-icons'>person_add</i>
+                    Signup
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        )}
+        <div className='col' id='ifnav'>
+          <div className='center search input-field'>
+            <input
+              type='text'
+              id='search-input'
+              className='validate'
+              onChange={OnChangeSearch}
+            />
+            <label htmlFor='search-input'>Search</label>
+          </div>
+
+          <ul className='collection with-header' id='ifnav'>
+            <li className='collection-header'>
+              <h4 className='center' id='ExplorePageTitle'>
+                &#9835;{' '}
+                <i className='material-icons black-text ExplorePageIcon'>
+                  explore
+                </i>{' '}
+                Explore All Playlists{' '}
+                <i className='material-icons black-text ExplorePageIcon'>
+                  explore
+                </i>{' '}
+                &#9835;
+              </h4>
+            </li>
+            {allPlaylists.map(playlist => (
+              <PlaylistItem playlistPassed={playlist} key={playlist.name} />
+            ))}
+          </ul>
+        </div>
       </div>
     );
   } else {
@@ -114,24 +203,49 @@ const Explore = ({
             </div>
           </nav>
         )}
-        <ul className='collection with-header' id='ifnav'>
-          <li className='collection-header'>
-            <h4 className='center' id='ExplorePageTitle'>
-              &#9835;{' '}
-              <i className='material-icons black-text ExplorePageIcon'>
-                explore
-              </i>{' '}
-              Explore All Playlists{' '}
-              <i className='material-icons black-text ExplorePageIcon'>
-                explore
-              </i>{' '}
-              &#9835;
-            </h4>
-          </li>
-          {allPlaylists.map(playlist => (
-            <PlaylistItem playlistPassed={playlist} key={playlist.name} />
-          ))}
-        </ul>
+        <div className='col' id='ifnav'>
+          <div className='center search input-field'>
+            <input
+              type='text'
+              id='search-input'
+              className='validate'
+              onChange={OnChangeSearch}
+            />
+            <label htmlFor='search-input'>Search</label>
+          </div>
+          <ul className='collection with-header' id='ifnav'>
+            <li className='collection-header'>
+              <h4 className='center' id='ExplorePageTitle'>
+                &#9835;{' '}
+                <i className='material-icons black-text ExplorePageIcon'>
+                  explore
+                </i>{' '}
+                Explore All Playlists{' '}
+                <i className='material-icons black-text ExplorePageIcon'>
+                  explore
+                </i>{' '}
+                &#9835;
+              </h4>
+            </li>
+            {allPlaylists
+              .filter(playlist => {
+                if (
+                  playlist.name
+                    .toLowerCase()
+                    .indexOf(searchText.toLowerCase()) > -1
+                ) {
+                  return true;
+                } else {
+                  return false;
+                }
+              })
+              .map(playlist => {
+                return (
+                  <PlaylistItem playlistPassed={playlist} key={playlist.name} />
+                );
+              })}
+          </ul>
+        </div>
       </div>
     );
   }

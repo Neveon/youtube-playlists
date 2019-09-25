@@ -18,10 +18,6 @@ Create an account and create your own unique unlisted YouTube playlist. All play
 
    Learned to deep copy arrays to prevent `Redux` state mutations.
 
-## Plans
-
-1. Search functionality to search through all playlists created
-
 ## Available Scripts
 
 In the project directory, you can run:

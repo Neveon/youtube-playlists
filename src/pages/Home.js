@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -31,6 +31,8 @@ const Home = ({
   setBaseUrl,
   logoutUser
 }) => {
+  const [searchText, setSearchText] = useState('');
+
   useEffect(() => {
     M.AutoInit();
     // If token exists then get playlists, otherwise route user to login
@@ -47,6 +49,10 @@ const Home = ({
     }
     // eslint-disable-next-line
   }, []);
+
+  const OnChangeSearch = e => {
+    setSearchText(e.target.value);
+  };
 
   if (user.loading) {
     return (
@@ -68,14 +74,67 @@ const Home = ({
             </ul>
           </div>
         </nav>
-        <ul className='collection with-header' id='ifnav'>
-          <li className='collection-header'>
-            <h4 className='center'>&#9835; Your Playlists &#9835;</h4>
-          </li>
-          <br />
-          <Preloader />
-          <br />
-        </ul>
+        <div className='col' id='ifnav'>
+          <div className='center search input-field'>
+            <input
+              type='text'
+              id='search-input'
+              className='validate'
+              onChange={OnChangeSearch}
+            />
+            <label htmlFor='search-input'>Search</label>
+          </div>
+          <ul className='collection with-header' id='ifnav'>
+            <li className='collection-header'>
+              <h4 className='center'>&#9835; Your Playlists &#9835;</h4>
+            </li>
+            <br />
+            <Preloader />
+            <br />
+          </ul>
+        </div>
+      </div>
+    );
+  } else if (searchText === '') {
+    return (
+      <div>
+        <nav>
+          <div className='nav-wrapper'>
+            <Link to='/'>
+              <img src={Logo} alt='Playlist Logo' />
+            </Link>
+            <ul id='nav-mobile' className='right'>
+              <li id='exploreLink'>
+                <Link to='/explore'>
+                  <i className='material-icons'>explore</i>
+                </Link>
+              </li>
+              <li>
+                <LogoutBtn atHome={true} />
+              </li>
+            </ul>
+          </div>
+        </nav>
+        <div className='col' id='ifnav'>
+          <div className='center search input-field'>
+            <input
+              type='text'
+              id='search-input'
+              className='validate'
+              onChange={OnChangeSearch}
+            />
+            <label htmlFor='search-input'>Search</label>
+          </div>
+          <ul className='collection with-header' id='ifnav'>
+            <li className='collection-header'>
+              <h4 className='center'>&#9835; Your Playlists &#9835;</h4>
+            </li>
+            {allPlaylists.map(playlist => (
+              <PlaylistItem playlistPassed={playlist} key={playlist.name} />
+            ))}
+          </ul>
+        </div>
+        <AddPlaylistBtn />
       </div>
     );
   } else {
@@ -98,14 +157,39 @@ const Home = ({
             </ul>
           </div>
         </nav>
-        <ul className='collection with-header' id='ifnav'>
-          <li className='collection-header'>
-            <h4 className='center'>&#9835; Your Playlists &#9835;</h4>
-          </li>
-          {allPlaylists.map(playlist => (
-            <PlaylistItem playlistPassed={playlist} key={playlist.name} />
-          ))}
-        </ul>
+        <div className='col' id='ifnav'>
+          <div className='center search input-field'>
+            <input
+              type='text'
+              id='search-input'
+              className='validate'
+              onChange={OnChangeSearch}
+            />
+            <label htmlFor='search-input'>Search</label>
+          </div>
+          <ul className='collection with-header' id='ifnav'>
+            <li className='collection-header'>
+              <h4 className='center'>&#9835; Your Playlists &#9835;</h4>
+            </li>
+            {allPlaylists
+              .filter(playlist => {
+                if (
+                  playlist.name
+                    .toLowerCase()
+                    .indexOf(searchText.toLowerCase()) > -1
+                ) {
+                  return true;
+                } else {
+                  return false;
+                }
+              })
+              .map(playlist => {
+                return (
+                  <PlaylistItem playlistPassed={playlist} key={playlist.name} />
+                );
+              })}
+          </ul>
+        </div>
         <AddPlaylistBtn />
       </div>
     );
